@@ -18,16 +18,16 @@ function Turn_Left () {
 }
 radio.onReceivedValue(function (name, value) {
     if (name == "mgX") {
-        right = value
+        right_axis = value
     } else if (name == "mgY") {
-        backwards = value
+        Axis = value
     } else if (name == "engine") {
         running = value
     } else if (name == "mode") {
         Mode = value
     }
-    Right_Wheel = -1 * (backwards + right)
-    Left_Wheel = -1 * (backwards - right)
+    Right_Wheel = -1 * (Axis + right_axis)
+    Left_Wheel = -1 * (Axis - right_axis)
 })
 function Stop () {
     pins.analogWritePin(AnalogPin.P12, 0)
@@ -35,20 +35,20 @@ function Stop () {
     pins.analogWritePin(AnalogPin.P14, 0)
     pins.analogWritePin(AnalogPin.P15, 0)
 }
-let Right_Line = 0
-let Front = 0
-let Left = 0
+let Right_Sensor = 0
+let Front_Sensor = 0
+let Left_Sensor = 0
 let Direction2 = 0
 let Left_Wheel = 0
 let Right_Wheel = 0
 let Mode = 0
 let running = 0
-let right = 0
-let backwards = 0
+let right_axis = 0
+let Axis = 0
 radio.setGroup(147)
 basic.showIcon(IconNames.Target)
-backwards = 0
-right = 0
+Axis = 0
+right_axis = 0
 running = 0
 Mode = 0
 basic.forever(function () {
@@ -157,40 +157,40 @@ basic.forever(function () {
 })
 basic.forever(function () {
     if (300 < pins.analogReadPin(AnalogPin.P0)) {
-        Left = 1
+        Left_Sensor = 1
     } else {
-        Left = 0
+        Left_Sensor = 0
     }
 })
 basic.forever(function () {
     if (500 < pins.analogReadPin(AnalogPin.P2)) {
-        Front = 0
+        Front_Sensor = 0
     } else {
-        Front = 1
+        Front_Sensor = 1
     }
 })
 basic.forever(function () {
-    if (Front == 1) {
+    if (Front_Sensor == 1) {
         Direction2 = 0
     } else {
-        if (Left == 0 && Right_Line == 0) {
+        if (Left_Sensor == 0 && Right_Sensor == 0) {
             Direction2 = 1
         }
-        if (Left == 1 && Right_Line == 0) {
+        if (Left_Sensor == 1 && Right_Sensor == 0) {
             Direction2 = 3
         }
-        if (Left == 0 && Right_Line == 1) {
+        if (Left_Sensor == 0 && Right_Sensor == 1) {
             Direction2 = 2
         }
-        if (Left == 1 && Right_Line == 1) {
+        if (Left_Sensor == 1 && Right_Sensor == 1) {
             Direction2 = 0
         }
     }
 })
 basic.forever(function () {
     if (300 < pins.analogReadPin(AnalogPin.P1)) {
-        Right_Line = 1
+        Right_Sensor = 1
     } else {
-        Right_Line = 0
+        Right_Sensor = 0
     }
 })
